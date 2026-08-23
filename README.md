@@ -5,6 +5,12 @@ that works identically on macOS, Linux and Windows.
 
 See [KEYS.md](KEYS.md) for the full keybinding reference.
 
+## Requirements
+
+WezTerm `20240203` or newer (developed and verified against that release). The
+config uses `InputSelector`, `PromptInputLine` and `pane:move_to_new_tab`, which
+are absent from older builds.
+
 ## Install
 
 The repo *is* the config directory, so there are no symlinks to manage.

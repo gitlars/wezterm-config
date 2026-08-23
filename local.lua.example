@@ -1,4 +1,5 @@
 -- Copy to local.lua for machine-specific overrides (gitignored).
+local wezterm = require 'wezterm'
 local M = {}
 
 function M.apply(config)
@@ -9,6 +10,15 @@ function M.apply(config)
   -- Windows: PowerShell 7 must be installed separately; stock Windows only
   -- has powershell.exe (5.1).
   -- config.default_prog = { 'pwsh.exe', '-NoLogo' }
+
+  -- Point the LEADER+s project picker at your own directories. Lua caches
+  -- modules, so assigning here replaces the defaults in modules/sessions.lua
+  -- without editing a tracked file.
+  -- local sessions = require 'modules.sessions'
+  -- sessions.roots = {
+  --   wezterm.home_dir .. '/repos',
+  --   wezterm.home_dir .. '/clients',
+  -- }
 end
 
 return M
