@@ -22,10 +22,10 @@ function M.apply(config)
   config.unzoom_on_switch_pane = true
   config.enable_kitty_graphics = true
 
-  -- Windows has no sane default shell choice; everywhere else inherit $SHELL.
-  if platform.is_windows then
-    config.default_prog = { 'pwsh.exe', '-NoLogo' }
-  end
+  -- Deliberately no default_prog: WezTerm inherits the system default shell on
+  -- every platform. Hardcoding pwsh.exe would fail on stock Windows, which
+  -- ships powershell.exe (5.1) and not PowerShell 7. Set it in local.lua on
+  -- machines where you want a specific shell.
 
   -- LEADER+f (quick select) jumps to any of these without touching the mouse.
   config.quick_select_patterns = {

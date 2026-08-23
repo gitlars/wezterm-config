@@ -5,6 +5,10 @@ function M.apply(config)
   -- config.font_size = 14.0
   -- config.color_scheme = 'Tokyo Night Storm'
   -- config.default_prog = { '/opt/homebrew/bin/fish', '-l' }
+
+  -- Windows: PowerShell 7 must be installed separately; stock Windows only
+  -- has powershell.exe (5.1).
+  -- config.default_prog = { 'pwsh.exe', '-NoLogo' }
 end
 
 return M

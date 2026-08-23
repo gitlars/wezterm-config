@@ -23,7 +23,7 @@ build the path from `$USER`/`%USERNAME%` — a home directory is not reliably
 **bash / zsh** (macOS, Linux, WSL, Git Bash):
 
 ```sh
-GH_OWNER=gitlars   # change to your username if you forked
+GH_OWNER="${GH_OWNER:-gitlars}"   # honors an exported GH_OWNER; edit if you forked
 
 git clone "https://github.com/$GH_OWNER/wezterm-config" \
   "${XDG_CONFIG_HOME:-$HOME/.config}/wezterm"
@@ -32,23 +32,23 @@ git clone "https://github.com/$GH_OWNER/wezterm-config" \
 **fish**:
 
 ```fish
-set -l gh_owner gitlars   # change to your username if you forked
+set -q GH_OWNER; or set GH_OWNER gitlars   # edit if you forked
 
-git clone "https://github.com/$gh_owner/wezterm-config" \
+git clone "https://github.com/$GH_OWNER/wezterm-config" \
   (test -n "$XDG_CONFIG_HOME"; and echo $XDG_CONFIG_HOME; or echo $HOME/.config)/wezterm
 ```
 
 **PowerShell** (Windows):
 
 ```powershell
-$GhOwner = 'gitlars'   # change to your username if you forked
+if (-not $env:GH_OWNER) { $env:GH_OWNER = 'gitlars' }   # edit if you forked
 
 $dest = if ($env:XDG_CONFIG_HOME) {
   Join-Path $env:XDG_CONFIG_HOME 'wezterm'
 } else {
   Join-Path $env:USERPROFILE '.config\wezterm'
 }
-git clone "https://github.com/$GhOwner/wezterm-config" $dest
+git clone "https://github.com/$env:GH_OWNER/wezterm-config" $dest
 ```
 
 ### Keeping the repo somewhere else

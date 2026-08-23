@@ -6,7 +6,9 @@ local act = wezterm.action
 
 local M = {}
 
-local home = wezterm.home_dir
+-- Normalise to forward slashes: home_dir returns backslashes on Windows, and
+-- glob patterns are matched with '/' as the separator. Windows APIs accept '/'.
+local home = (wezterm.home_dir:gsub('\\', '/'))
 
 -- Roots to scan. Missing directories are simply skipped.
 M.roots = {
