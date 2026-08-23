@@ -29,6 +29,13 @@ end
 function M.apply(config)
   config.leader = { key = 'a', mods = 'CTRL', timeout_milliseconds = 2000 }
 
+  -- macOS only, and currently the same as WezTerm's default -- pinned because
+  -- Meta encoding is depended on everywhere (Option+D / Option+Backspace word
+  -- deletion, readline and REPL bindings) and a silent upstream default change
+  -- would be painful to diagnose. Left Option sends Meta; right Option is left
+  -- alone so it still composes accented characters.
+  config.send_composed_key_when_left_alt_is_pressed = false
+
   local keys = {
     -- LEADER,a -> literal CTRL+a, so readline's beginning-of-line survives.
     { key = 'a', mods = 'LEADER',      action = act.SendKey { key = 'a', mods = 'CTRL' } },
