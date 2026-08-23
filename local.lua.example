@@ -1,0 +1,10 @@
+-- Copy to local.lua for machine-specific overrides (gitignored).
+local M = {}
+
+function M.apply(config)
+  -- config.font_size = 14.0
+  -- config.color_scheme = 'Tokyo Night Storm'
+  -- config.default_prog = { '/opt/homebrew/bin/fish', '-l' }
+end
+
+return M

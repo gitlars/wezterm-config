@@ -1,0 +1,6 @@
+# Machine-specific overrides
+local.lua
+
+# OS noise
+.DS_Store
+Thumbs.db
