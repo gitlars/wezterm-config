@@ -14,26 +14,32 @@ in the right place regardless of how the machine is set up.
 **bash / zsh** (macOS, Linux, WSL, Git Bash):
 
 ```sh
-git clone https://github.com/gitlars/wezterm-config \
+GH_OWNER=gitlars   # change to your username if you forked
+
+git clone "https://github.com/$GH_OWNER/wezterm-config" \
   "${XDG_CONFIG_HOME:-$HOME/.config}/wezterm"
 ```
 
 **fish**:
 
 ```fish
-git clone https://github.com/gitlars/wezterm-config \
+set -l gh_owner gitlars   # change to your username if you forked
+
+git clone "https://github.com/$gh_owner/wezterm-config" \
   (test -n "$XDG_CONFIG_HOME"; and echo $XDG_CONFIG_HOME; or echo $HOME/.config)/wezterm
 ```
 
 **PowerShell** (Windows):
 
 ```powershell
+$GhOwner = 'gitlars'   # change to your username if you forked
+
 $dest = if ($env:XDG_CONFIG_HOME) {
   Join-Path $env:XDG_CONFIG_HOME 'wezterm'
 } else {
   Join-Path $env:USERPROFILE '.config\wezterm'
 }
-git clone https://github.com/gitlars/wezterm-config $dest
+git clone "https://github.com/$GhOwner/wezterm-config" $dest
 ```
 
 ### Keeping the repo somewhere else
@@ -42,7 +48,7 @@ git clone https://github.com/gitlars/wezterm-config $dest
 anywhere — useful if you keep all your source under one directory:
 
 ```sh
-git clone https://github.com/gitlars/wezterm-config ~/src/wezterm-config
+git clone "https://github.com/$GH_OWNER/wezterm-config" ~/src/wezterm-config
 export WEZTERM_CONFIG_FILE="$HOME/src/wezterm-config/wezterm.lua"   # in your shell rc
 ```
 
