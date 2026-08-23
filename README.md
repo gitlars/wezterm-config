@@ -7,9 +7,18 @@ See [KEYS.md](KEYS.md) for the full keybinding reference.
 
 ## Install
 
-The repo *is* the config directory, so there are no symlinks to manage. Each
-command below resolves the destination from environment variables, so it lands
-in the right place regardless of how the machine is set up.
+The repo *is* the config directory, so there are no symlinks to manage.
+
+**The clone destination matters.** This repo is named `wezterm-config`, but
+WezTerm looks for a directory named exactly `wezterm`. The second argument to
+`git clone` renames it on the way in, so clone it as `.../wezterm`, not
+`.../wezterm-config`. Git creates any missing parent directories.
+
+The destination is resolved from environment variables rather than hardcoded, so
+it lands in the right place on any machine and any account: `$HOME` (or
+`%USERPROFILE%`) already expands to the current user's home directory. Never
+build the path from `$USER`/`%USERNAME%` — a home directory is not reliably
+`/home/<username>` (macOS uses `/Users/`, and managed machines relocate homes).
 
 **bash / zsh** (macOS, Linux, WSL, Git Bash):
 
