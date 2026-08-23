@@ -55,9 +55,30 @@ local function cwd_of(pane_info)
   return (tostring(cwd):gsub('^file://[^/]*', ''))
 end
 
+-- Display width in cells. `#s` is byte length, which is wrong for the icons
+-- and any non-ASCII title.
+local function width_of(s)
+  if wezterm.column_width then
+    local ok, w = pcall(wezterm.column_width, s)
+    if ok then return w end
+  end
+  return #s
+end
+
+-- Truncate *visibly*. Silently cutting a string can produce a different but
+-- entirely plausible value -- a pane titled "2.1.241" becoming "2.1.24" reads
+-- as a real version that does not exist. The ellipsis makes the cut obvious.
+local function fit(text, width)
+  if width <= 0 then return '' end
+  if width_of(text) <= width then return text end
+  if width <= 1 then return '\u{2026}' end
+  return wezterm.truncate_right(text, width - 1) .. '\u{2026}'
+end
+
 -- A shell tab is most usefully named by its directory; anything else by the
--- program that is running.
-local function title_for(tab, max_width)
+-- program that is running. Returns the untruncated title; the caller measures
+-- the space actually left over and fits it.
+local function title_for(tab)
   if tab.tab_title and #tab.tab_title > 0 then
     return tab.tab_title, DEFAULT_ICON
   end
@@ -73,7 +94,7 @@ local function title_for(tab, max_width)
     title = proc or (pane.title or 'shell')
   end
 
-  return wezterm.truncate_right(title, math.max(max_width - 8, 6)), icon
+  return title, icon
 end
 
 function M.setup()
@@ -89,7 +110,7 @@ function M.setup()
       next_bg = next_tab.is_active and p.blue or p.bg
     end
 
-    local title, icon = title_for(tab, max_width)
+    local raw_title, icon = title_for(tab)
 
     local marks = ''
     if tab.active_pane.is_zoomed then
@@ -99,11 +120,17 @@ function M.setup()
       marks = marks .. ' ' .. glyph('md_circle_medium', '*')
     end
 
+    -- Measure the fixed parts rather than guessing, so the title gets exactly
+    -- the space that is genuinely left.
+    local prefix = string.format(' %d %s ', tab.tab_index + 1, icon)
+    local suffix = marks .. ' '
+    local title = fit(raw_title, max_width - width_of(prefix) - width_of(suffix))
+
     return {
       { Background = { Color = bg } },
       { Foreground = { Color = fg } },
       { Attribute = { Intensity = active and 'Bold' or 'Normal' } },
-      { Text = string.format(' %d %s %s%s ', tab.tab_index + 1, icon, title, marks) },
+      { Text = prefix .. title .. suffix },
       { Background = { Color = next_bg } },
       { Foreground = { Color = bg } },
       { Text = SEP },
