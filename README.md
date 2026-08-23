@@ -10,13 +10,13 @@ See [KEYS.md](KEYS.md) for the full keybinding reference.
 The repo *is* the config directory, so there are no symlinks to manage:
 
 ```sh
-git clone https://github.com/<user>/wezterm-config ~/.config/wezterm
+git clone https://github.com/gitlars/wezterm-config ~/.config/wezterm
 ```
 
 On Windows:
 
 ```powershell
-git clone https://github.com/<user>/wezterm-config $env:USERPROFILE\.config\wezterm
+git clone https://github.com/gitlars/wezterm-config $env:USERPROFILE\.config\wezterm
 ```
 
 Then install [JetBrainsMono Nerd Font](https://www.nerdfonts.com/) so the tab bar
