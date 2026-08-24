@@ -115,6 +115,30 @@ unzip -o /tmp/JetBrainsMono.zip \
 fc-cache -f
 ```
 
+## Keybindings
+
+[KEYS.md](KEYS.md) is **generated** from `modules/keys.lua`, so it cannot drift
+from the actual bindings. Each entry in that file carries its own `group` and
+`desc`; the same table produces both the live key assignments and the document.
+
+After changing a binding, regenerate:
+
+```sh
+wezterm --config-file ~/.config/wezterm/generate-keys.lua ls-fonts >/dev/null
+```
+
+To check the docs are current without thinking about it — regenerate and see
+whether git notices:
+
+```sh
+wezterm --config-file ~/.config/wezterm/generate-keys.lua ls-fonts >/dev/null
+git diff --quiet KEYS.md && echo "in sync" || echo "KEYS.md was stale, now fixed"
+```
+
+`generate-keys.lua` is a config file rather than a script because WezTerm ships
+no standalone Lua interpreter: loading it as a config runs it, and it returns an
+empty config so nothing else happens.
+
 ## Per-machine overrides
 
 `local.lua` is gitignored. Copy `local.lua.example` to `local.lua` on any machine
