@@ -5,11 +5,30 @@ that works identically on macOS, Linux and Windows.
 
 See [KEYS.md](KEYS.md) for the full keybinding reference.
 
-## Requirements
+## Dependencies
 
-WezTerm `20240203` or newer (developed and verified against that release). The
-config uses `InputSelector`, `PromptInputLine` and `pane:move_to_new_tab`, which
-are absent from older builds.
+Only WezTerm itself is required. Everything else is optional and degrades rather
+than breaking — icons fall back to text, and absent tools drop their status-bar
+segment.
+
+| Dependency | Needed for | Required? | If missing |
+|---|---|---|---|
+| WezTerm `20240203`+ | everything | **yes** | older builds lack `InputSelector`, `PromptInputLine` and `pane:move_to_new_tab` |
+| [JetBrainsMono Nerd Font](https://github.com/ryanoasis/nerd-fonts) | tab-bar and status-bar icons | no | glyphs fall back to short text markers; the font falls back to plain JetBrains Mono |
+| `git` on `PATH` | the branch segment in the status bar | no | segment is omitted; nothing else changes |
+| a battery | the battery segment | no | omitted on desktops |
+| GPU with WebGPU support | `front_end = 'WebGpu'` | no | set `front_end = 'OpenGL'` in `modules/behavior.lua` |
+| `io` in WezTerm's Lua | `generate-keys.lua` only | no | `KEYS.md` cannot be regenerated; the config itself is unaffected |
+
+**No CLI tools are needed.** The project picker uses `wezterm.glob` rather than
+`find` or `fd`, so it works identically on Windows. `git` is the single external
+binary the config ever invokes, and that call is wrapped so a missing or slow
+git cannot stall the status bar.
+
+The **Tokyo Night** colour scheme ships with WezTerm — there is nothing to
+install for it.
+
+See [Font](#font) for per-platform install commands.
 
 ## Install
 
