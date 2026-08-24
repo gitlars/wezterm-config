@@ -82,9 +82,14 @@ local function basename(s)
 end
 
 -- One powerline-separated segment.
+--
+-- The divider glyph is a solid triangle: it is painted in the FOREGROUND colour
+-- while the rest of its cell takes the BACKGROUND. So the triangle must carry
+-- the incoming segment's colour and sit on the outgoing segment's background.
+-- Reversing these two is what makes the chevron ends look inverted.
 local function segment(cells, text, fg, bg, prev_bg)
-  table.insert(cells, { Background = { Color = bg } })
-  table.insert(cells, { Foreground = { Color = prev_bg } })
+  table.insert(cells, { Background = { Color = prev_bg } })
+  table.insert(cells, { Foreground = { Color = bg } })
   table.insert(cells, { Text = SEP_L })
   table.insert(cells, { Background = { Color = bg } })
   table.insert(cells, { Foreground = { Color = fg } })

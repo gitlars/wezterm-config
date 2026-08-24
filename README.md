@@ -157,6 +157,7 @@ It is applied last, so it wins over everything in `modules/`.
 | Path | Purpose |
 |---|---|
 | `wezterm.lua` | entry point |
+| `generate-keys.lua` | regenerates `KEYS.md` from `modules/keys.lua` — see [Keybindings](#keybindings) |
 | `modules/platform.lua` | OS detection — the only file that branches per-OS |
 | `modules/colors.lua` | Tokyo Night palette |
 | `modules/appearance.lua` | fonts, window chrome, tab bar colors |
