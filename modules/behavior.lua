@@ -6,11 +6,17 @@ local platform = require 'modules.platform'
 local M = {}
 
 function M.apply(config)
-  -- Rendering. Flip front_end to 'OpenGL' if you ever see flicker/artifacts.
-  config.front_end = 'WebGpu'
-  config.webgpu_power_preference = 'HighPerformance'
-  config.max_fps = 120
-  config.animation_fps = 60
+  -- Rendering. This VM previously had no working 3D acceleration (VMware SVGA
+  -- II Adapter with "Accelerate 3D Graphics" off), so WebGpu fell back to
+  -- llvmpipe (software Vulkan) and pegged the CPU across many worker threads.
+  -- 3D acceleration is now enabled in the VM settings and confirmed working
+  -- for GNOME Shell (no llvmpipe threads there anymore). Trying OpenGL here
+  -- as the first accelerated test: more conservative than WebGpu, and if it
+  -- still falls back to software we'll see it the same way -- llvmpipe
+  -- threads under wezterm-gui -- without repeating the earlier crisis.
+  config.front_end = 'OpenGL'
+  config.max_fps = 60
+  config.animation_fps = 24
 
   config.scrollback_lines = 20000
   config.enable_scroll_bar = false
