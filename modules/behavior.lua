@@ -16,7 +16,11 @@ function M.apply(config)
   config.enable_scroll_bar = false
   config.check_for_updates = false
   config.automatically_reload_config = true
-  config.exit_behavior = 'CloseOnCleanExit'
+  -- 'Close', not 'CloseOnCleanExit': a bare `exit` returns the status of the
+  -- *previous* command, so exiting after any failed command left the pane open
+  -- with a warning. "My last command failed" is an ordinary state, not an
+  -- event worth a dialog.
+  config.exit_behavior = 'Close'
   config.default_workspace = 'main'
   config.status_update_interval = 1000
   config.unzoom_on_switch_pane = true

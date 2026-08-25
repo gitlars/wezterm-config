@@ -210,3 +210,8 @@ logged.
 
 **Rendering artifacts.** Set `config.front_end = 'OpenGL'` in
 `modules/behavior.lua` (it defaults to `WebGpu`).
+
+**A pane refuses to close after `exit`.** `exit_behavior` is set to `Close`, so
+this should not happen. If you set it back to `CloseOnCleanExit`, be aware that
+a bare `exit` returns the status of the *previous* command — so exiting after
+any failed command counts as an unclean exit and holds the pane open.
