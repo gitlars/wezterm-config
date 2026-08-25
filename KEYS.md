@@ -19,6 +19,8 @@ Windows. `LEADER a` sends a literal CTRL+a to the shell.
 |---|---|
 | `LEADER \| or LEADER \` | split right |
 | `LEADER -` | split down |
+| `LEADER CTRL+\|` | prompt for N equal columns |
+| `LEADER CTRL+-` | prompt for N equal rows |
 | `LEADER h j k l` | move between panes |
 | `LEADER ← ↓ ↑ →` | move between panes |
 | `LEADER o` | next pane |

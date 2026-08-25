@@ -31,6 +31,24 @@ local function prompt(label, on_line)
   }
 end
 
+local function prompt_equal_splits(label, direction)
+  return prompt(label, function(window, pane, line)
+    local n = math.floor(tonumber(line) or 0)
+    if n < 2 then
+      window:toast_notification('WezTerm', 'Enter an integer >= 2', nil, 3000)
+      return
+    end
+
+    local anchor = pane
+    for remaining = n, 2, -1 do
+      anchor:split {
+        direction = direction,
+        size = 1 / remaining,
+      }
+    end
+  end)
+end
+
 -- Group order controls the section order in KEYS.md.
 M.groups = { 'Leader', 'Panes', 'Tabs', 'Workspaces', 'Copy, search, links', 'Misc' }
 
@@ -53,6 +71,10 @@ local SPEC = {
     key = '-', mods = 'LEADER', action = act.SplitVertical { domain = 'CurrentPaneDomain' } },
   { group = 'Panes', desc = 'split down', key = '_', mods = 'LEADER|SHIFT',
     action = act.SplitVertical { domain = 'CurrentPaneDomain' }, doc_skip = true },
+  { group = 'Panes', desc = 'prompt for N equal columns', label = 'LEADER CTRL+|',
+    key = '|', mods = 'LEADER|CTRL|SHIFT', action = prompt_equal_splits('Equal columns: ', 'Right') },
+  { group = 'Panes', desc = 'prompt for N equal rows', label = 'LEADER CTRL+-',
+    key = '-', mods = 'LEADER|CTRL', action = prompt_equal_splits('Equal rows: ', 'Bottom') },
 
   { group = 'Panes', desc = 'move between panes', label = 'LEADER h j k l',
     key = 'h', mods = 'LEADER', action = act.ActivatePaneDirection 'Left' },
