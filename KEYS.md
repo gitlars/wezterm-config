@@ -21,6 +21,11 @@ Windows. `LEADER a` sends a literal CTRL+a to the shell.
 | `LEADER -` | split down |
 | `LEADER CTRL+\|` | prompt for N equal columns |
 | `LEADER CTRL+-` | prompt for N equal rows |
+| `LEADER CTRL+=` | equalize the current row of panes |
+| `CTRL+→` | grow the active pane to the right by 1 cell |
+| `CTRL+←` | shrink the active pane from the right by 1 cell |
+| `CTRL+↓` | grow the active pane toward the bottom by 1 cell |
+| `CTRL+↑` | shrink the active pane from the bottom by 1 cell |
 | `LEADER h j k l` | move between panes |
 | `LEADER ← ↓ ↑ →` | move between panes |
 | `LEADER o` | next pane |
