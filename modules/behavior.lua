@@ -22,6 +22,17 @@ function M.apply(config)
   config.enable_scroll_bar = false
   config.check_for_updates = false
   config.automatically_reload_config = true
+
+  -- audible_bell's SystemBeep is a no-op on Wayland (no system beep to
+  -- call). Used by the pane resize nudge/equalize bindings in keys.lua as
+  -- a lightweight "didn't work" signal instead of a toast on every miss --
+  -- a brief cursor-colour flash, not a screen flash, so it's noticeable
+  -- without being disruptive.
+  config.visual_bell = {
+    fade_in_duration_ms = 60,
+    fade_out_duration_ms = 60,
+    target = 'CursorColor',
+  }
   -- 'Close', not 'CloseOnCleanExit': a bare `exit` returns the status of the
   -- *previous* command, so exiting after any failed command left the pane open
   -- with a warning. "My last command failed" is an ordinary state, not an
