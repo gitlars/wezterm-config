@@ -104,18 +104,28 @@ local function resize_pane_verified(window, tab, pane_id, direction, amount)
 
   local dim_before = (direction == 'Left' or direction == 'Right') and before.width or before.height
   local dim_after = (direction == 'Left' or direction == 'Right') and after.width or after.height
-  local sign = (direction == 'Right' or direction == 'Down') and 1 or -1
-  local expected = dim_before + sign * amount
 
   if restore_id ~= pane_id then
     local restore = get_pane_by_id(tab:panes_with_info(), restore_id)
     if restore then restore.pane:activate() end
   end
 
-  if dim_after ~= expected then
+  -- Whether `direction` grows or shrinks a *specific* pane depends on
+  -- which side of that pane actually has a movable boundary in that
+  -- direction -- a tree-shape fact, not a fixed convention. Confirmed by
+  -- hand: for the bottom-most pane in a column, 'Up' *grows* it (its only
+  -- boundary is its top edge, and pushing that edge up enlarges the pane
+  -- below it) while 'Down' shrinks it -- the reverse of what a middle pane
+  -- would do. So this does not assert a growth/shrink direction; it only
+  -- confirms the pane's dimension changed by exactly `amount` in some
+  -- direction, which is what "the resize actually landed on this pane, at
+  -- the size requested" means here. A boundary that doesn't move at all
+  -- (the wezterm#7401 case) is the failure this actually needs to catch.
+  local delta = dim_after - dim_before
+  if math.abs(delta) ~= amount then
     return false, string.format(
-      'a boundary would not move (expected %d, got %d) -- likely wezterm#7401',
-      expected, dim_after)
+      'a boundary would not move (changed by %d, expected %d) -- likely wezterm#7401',
+      delta, amount)
   end
   return true
 end
